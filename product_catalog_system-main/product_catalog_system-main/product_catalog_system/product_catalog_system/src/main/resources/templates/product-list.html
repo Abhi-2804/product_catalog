@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Product Catalog</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Segoe+UI&display=swap');
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 2rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        h1 {
+            color: #fff;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+
+        a.add-new {
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            padding: 0.6rem 1.2rem;
+            background: #43a047;
+            color: #fff;
+            font-weight: 600;
+            border-radius: 2rem;
+            text-decoration: none;
+            box-shadow: 0 6px 15px rgba(67, 160, 71, 0.4);
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        a.add-new:hover {
+            background: #388e3c;
+            box-shadow: 0 8px 20px rgba(56, 142, 60, 0.6);
+        }
+
+        table {
+            width: 100%;
+            max-width: 900px;
+            border-collapse: separate;
+            border-spacing: 0 12px;
+            background: transparent;
+        }
+
+        thead tr th {
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            color: white;
+            font-weight: 700;
+            padding: 12px 20px;
+            border-radius: 12px 12px 0 0;
+            text-align: left;
+            box-shadow: 0 3px 6px rgba(102, 126, 234, 0.3);
+        }
+
+        tbody tr {
+            background: #fff;
+            box-shadow: 0 6px 12px rgba(102, 126, 234, 0.1);
+            border-radius: 12px;
+            transition: transform 0.2s ease;
+        }
+        tbody tr:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.2);
+        }
+
+        tbody tr td {
+            padding: 14px 20px;
+            border: none;
+            color: #555;
+            vertical-align: middle;
+        }
+
+        tbody tr td:last-child {
+            display: flex;
+            gap: 0.8rem;
+            justify-content: flex-start;
+        }
+
+        a.edit, a.delete {
+            padding: 6px 14px;
+            border-radius: 2rem;
+            font-weight: 600;
+            color: #fff;
+            text-decoration: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            user-select: none;
+        }
+
+        a.edit {
+            background-color: #28a745;
+        }
+        a.edit:hover {
+            background-color: #218838;
+            box-shadow: 0 6px 18px rgba(33, 136, 56, 0.5);
+        }
+
+        a.delete {
+            background-color: #dc3545;
+        }
+        a.delete:hover {
+            background-color: #b02a37;
+            box-shadow: 0 6px 18px rgba(176, 42, 55, 0.5);
+        }
+
+        @media (max-width: 600px) {
+            table, thead, tbody, th, td, tr {
+                display: block;
+            }
+            thead tr {
+                display: none;
+            }
+            tbody tr {
+                margin-bottom: 1.2rem;
+                box-shadow: none;
+                background: #fff;
+                border-radius: 12px;
+                padding: 1rem;
+            }
+            tbody tr td {
+                display: flex;
+                justify-content: space-between;
+                padding: 8px 12px;
+                border-bottom: 1px solid #eee;
+            }
+            tbody tr td:last-child {
+                justify-content: flex-end;
+                gap: 0.5rem;
+                padding-top: 0.5rem;
+                border-bottom: none;
+            }
+            tbody tr td::before {
+                content: attr(data-label);
+                font-weight: 700;
+                color: #666;
+                flex: 1;
+                text-align: left;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<h1>Product Catalog</h1>
+
+<a href="/products/new" class="add-new">➕ Add New Product</a>
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="product : ${products}">
+            <td data-label="Name" th:text="${product.name}"></td>
+            <td data-label="Category" th:text="${product.category}"></td>
+            <td data-label="Price" th:text="${product.price}"></td>
+            <td data-label="Quantity" th:text="${product.quantity}"></td>
+            <td data-label="Actions">
+                <a th:href="@{'/products/edit/' + ${product.id}}" class="edit">Edit</a>
+                <a th:href="@{'/products/delete/' + ${product.id}}" class="delete" 
+                   onclick="return confirm('Are you sure you want to delete this product?');">Delete</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
